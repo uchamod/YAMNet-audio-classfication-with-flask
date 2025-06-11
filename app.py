@@ -2,8 +2,11 @@
 from flask import Flask, request, jsonify
 import os
 from yamnet_utils import predict_sound
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -29,4 +32,9 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   
+    app.run(
+       host='0.0.0.0',
+       port=5000,
+       debug=True
+         )

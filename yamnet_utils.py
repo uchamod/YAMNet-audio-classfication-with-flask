@@ -5,7 +5,7 @@ import numpy as np
 import scipy.signal
 import csv
 from scipy.io import wavfile
-
+import librosa
 # Load YAMNet model and class labels
 model = hub.load("https://tfhub.dev/google/yamnet/1")
 
@@ -27,11 +27,17 @@ def ensure_sample_rate(original_sr, waveform, target_sr=16000):
     return target_sr, waveform
 
 def predict_sound(filepath):
-    sample_rate, wav_data = wavfile.read(filepath)
-    sample_rate, wav_data = ensure_sample_rate(sample_rate, wav_data)
-    waveform = wav_data / tf.int16.max
+     # librosa.load does it all:
+    # - Opens the audio file (many formats supported, not just wav)
+    # - Converts to mono by default (mono=True)
+    # - Resamples to your target sample rate (sr=16000)
+    # - Returns a float32 numpy array, normalized between -1.0 and 1.0
+    waveform, sample_rate = librosa.load(filepath, sr=16000, mono=True)
+
+    # The waveform is now perfectly prepared for the YAMNet model
     scores, _, _ = model(waveform)
     scores_np = scores.numpy()
     mean_scores = scores_np.mean(axis=0)
-    top_class = class_names[mean_scores.argmax()]
+    top_class_index = mean_scores.argmax()
+    top_class = class_names[top_class_index]
     return top_class
