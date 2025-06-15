@@ -1,0 +1,54 @@
+uploads
+temp_uploads
+# Ignore all dotfiles
+.*
+.git
+.gitignore
+
+# Python specific
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+*.egg
+.pytest_cache/
+
+# Development and IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files (should be set via ENV in Dockerfile)
+.env
+venv/
+env/
+
+# Local data and logs
+data/
+logs/
+*.log
+
+# Build and distribution files
+build/
+dist/
+*.tar.gz
+*.whl
+
+# Documentation
+docs/
+*.md
+
+# Test files
+tests/
+test/
+*.test
+
+# Flutter app files (if they're in the same repo)
+android/
+ios/
+web/
+lib/
+pubspec.*

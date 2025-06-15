@@ -5,9 +5,16 @@ from yamnet_utils import predict_sound
 from flask_cors import CORS
 import subprocess
 from werkzeug.utils import secure_filename
+import uuid
+import tempfile
+import logging
 
 app = Flask(__name__)
 CORS(app)
+
+#configure logging
+logging.basicConfig(level=logging.INFO)
+logger=logging.getLogger(__name__)
 
 # Configure a folder to temporarily store uploads
 UPLOAD_FOLDER = 'temp_uploads'
@@ -30,6 +37,8 @@ def predict():
     file = request.files['audio']
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
+
+   
     
     # Define paths for the temporary input (.m4a) and output (.wav) files
     filename = secure_filename(file.filename)
@@ -73,10 +82,8 @@ def predict():
             os.remove(m4a_filepath)
         if os.path.exists(wav_filepath):
             os.remove(wav_filepath)
+
 if __name__ == '__main__':
-   
     app.run(
        host='0.0.0.0',
-       port=5000,
-       debug=True
-         )
+       port=8080,)
