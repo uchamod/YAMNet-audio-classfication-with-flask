@@ -1,1 +1,4 @@
 venv
+temp_uploads
+uploads
+.dockerignore
