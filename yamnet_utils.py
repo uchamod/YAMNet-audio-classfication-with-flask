@@ -17,8 +17,8 @@ def class_names_from_csv(csv_path):
             class_names.append(row['display_name'])
     return class_names
 
-class_map_path = model.class_map_path().numpy()
-class_names = class_names_from_csv(class_map_path)
+# class_map_path = model.class_map_path().numpy()
+# class_names = class_names_from_csv(class_map_path)
 
 def ensure_sample_rate(original_sr, waveform, target_sr=16000):
     if original_sr != target_sr:
@@ -26,7 +26,7 @@ def ensure_sample_rate(original_sr, waveform, target_sr=16000):
         waveform = scipy.signal.resample(waveform, desired_length)
     return target_sr, waveform
 
-def predict_sound(filepath):
+def predict_sound(filepath,class_names):
      # librosa.load does it all:
     # - Opens the audio file (many formats supported, not just wav)
     # - Converts to mono by default (mono=True)
