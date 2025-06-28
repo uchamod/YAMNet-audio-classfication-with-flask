@@ -27,4 +27,18 @@ gcloud run deploy audio-classifier \
   # verify
   gcloud container images list --repository=gcr.io/safe-journey-app-597b3
   # deploy
-  gcloud run deploy audio-classifier --image gcr.io/safe-journey-app-597b3/audio-classifier --memory 2Gi --timeout 600 --port 8080 --allow-unauthenticated --platform managed --region asia-southeast1
+  gcloud run deploy yamnet-audio-classifier --image gcr.io/safe-journey-app-597b3/yamnet-flask-app  --memory 2Gi --cpu 2 --timeout 900  --max-instances 10 --port 8080 --allow-unauthenticated --platform managed --region asia-southeast1
+
+  # Build and push to Google Container Registry
+  gcloud builds submit --tag gcr.io/safe-journey-app-597b3/yamnet-flask-app
+
+  gcloud run deploy yamnet-audio-classifier 
+  --image gcr.io/safe-journey-app-597b3/yamnet-flask-app 
+  --platform managed 
+  --region asia-southeast1 
+  --allow-unauthenticated 
+  --memory 2Gi 
+  --cpu 2 
+  --timeout 900 
+  --max-instances 10 
+  --set-env-vars PORT=8080

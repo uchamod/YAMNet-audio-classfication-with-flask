@@ -26,4 +26,5 @@ COPY . .
 EXPOSE 8080
 
 # Run app.py when the container launches
-CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 120 --preload app:app
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1","--threads", "8", "--timeout", "300", "--preload", "app:app"]
+#CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 120 --preload app:app
