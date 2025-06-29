@@ -114,3 +114,18 @@ gunicorn==21.2.0
 
 # GCE deployment
 gcloud compute ssh instance-20250628-135104 --zone=asia-southeast1-c
+
+# # Create gunicorn config
+bind = "0.0.0.0:8080"
+workers = 2 
+timeout = 600  
+keepalive = 5
+max_requests = 1000
+max_requests_jitter = 100
+threads = 4
+
+# Allow HTTP traffic (run from your local machine, not the instance)
+gcloud compute firewall-rules create allow-flask-app --allow tcp:80 --source-ranges 0.0.0.0/0 --description "Allow HTTP traffic for Flask app"
+
+
+sudo netstat -tlnp | grep :8080
